@@ -258,7 +258,9 @@ def calc_greeks_by_strike(calendar, day_count, deltalist, df_iv_file, dividend_y
     for idx_exp, df_exp in df_iv_file.groupby('option_expiration'):
         maturity_date = ql.Date(idx_exp.day, idx_exp.month, idx_exp.year)
 
-        exercise = ql.AmericanExercise(as_of_date, maturity_date)#RWM
+        #exercise = ql.AmericanExercise(maturity_date, as_of_date)#RWM
+        #exercise = ql.AmericanExercise(as_of_date, maturity_date)#RWM
+        exercise = ql.EuropeanExercise(maturity_date)
 
         for idx_row, df_row in df_exp.iterrows():
 
@@ -271,7 +273,7 @@ def calc_greeks_by_strike(calendar, day_count, deltalist, df_iv_file, dividend_y
             european_option = ql.VanillaOption(payoff, exercise)
 
             # worth 0.5 seconds
-            volatility = 0.1#RWM df_row['iv']
+            volatility = df_row['iv']#RWM
             flat_vol_ts = ql.BlackVolTermStructureHandle(
                 ql.BlackConstantVol(as_of_date, calendar, volatility, day_count)
             )
@@ -286,7 +288,8 @@ def calc_greeks_by_strike(calendar, day_count, deltalist, df_iv_file, dividend_y
                                                             flat_vol_ts)
 
 
-                european_option.setPricingEngine(ql.AnalyticDigitalAmericanEngine(process))
+                european_option.setPricingEngine(ql.AnalyticEuropeanEngine(process))#RWM
+                #european_option.setPricingEngine(ql.AnalyticDigitalAmericanEngine(process))#RWM
                 delta = european_option.delta()
                 gamma = european_option.gamma()
                 deltalist.append([idx_exp, spot, option_type, delta * df_row['open_interest'], delta * df_row['volume']])
