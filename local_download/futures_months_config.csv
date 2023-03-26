@@ -1,0 +1,13 @@
+Instrument,symbol_root,Month
+Silver,SI,HKNUZ
+Gold,GC,GJMQVZ
+High Grade Copper,HG,HKNUZ
+Natural Gas,NG,FGHJKMNQUVXZ
+Crude Oil,CL,FGHJKMNQUVXZ
+Corn,ZC,HKNUZ
+Soybean,ZS,FHKNQUX
+Wheat,ZW,KHNUZ
+10-Year T-Note,ZN,HMUZ
+5-Year T-Note,ZF,HMUZ
+2-Year T-Note,ZT,HMUZ
+3-Month SOFR,SQ,FGHJKMNQUVXZ
